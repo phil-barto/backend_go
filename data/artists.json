@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1234",
+        "name": "Lynnerd Skynnerd",
+        "age" : 75,
+        "email": "lynnerd.skynnerd@gmail.com",
+        "num_views": 10000
+    },
+    {
+        "id": "1432",
+        "name": "Bob Dylan",
+        "age" : 75,
+        "email": "bob.dylan@gmail.com",
+        "num_views": 90000
+    },
+    {
+        "id": "9876",
+        "name": "J. Cole",
+        "age" : 45,
+        "email": "j.cole@gmail.com",
+        "num_views": 124872
+    }
+]
