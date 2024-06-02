@@ -1,0 +1,26 @@
+[
+    {
+        "id": "0987",
+        "name": "free bird",
+        "artist_id": "1234",
+        "length": 500
+    },
+    {
+        "id": "2953",
+        "name": "time passes slowly",
+        "artist_id": "1432",
+        "length": 500
+    },
+    {
+        "id": "2568",
+        "name": "no role models",
+        "artist_id": "9876",
+        "length": 200
+    },
+    {
+        "id": "8253",
+        "name": "work out",
+        "artist_id": "9876",
+        "length": 210
+    }
+]

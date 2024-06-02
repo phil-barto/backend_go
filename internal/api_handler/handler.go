@@ -3,6 +3,7 @@ package api_handler
 import (
 	"backend_go/internal/artists"
 	"backend_go/internal/json_database"
+	"backend_go/internal/songs"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 type Handler struct {
 	log       log.Logger
 	a_service artists.ArtistService
+	s_service songs.SongService
 }
 
 func (h Handler) HealthCheck(c *gin.Context) {
@@ -41,13 +43,26 @@ func (h Handler) GetArtists(c *gin.Context) {
 	}
 }
 
+//	func (h Handler) GetSongs(c *gin.Context) {
+//		artists, err := h.s_service.Store.Get()
+//		if err != nil {
+//			fmt.Println("artists failed")
+//			c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
+//		} else {
+//			c.JSON(http.StatusOK, artists)
+//		}
+//	}
+
 func NewHandler() (Handler, error) {
 	db, err := json_database.NewJsonDB()
 	if err != nil {
 		fmt.Println("formatting error")
 	}
 	a_service := artists.NewArtistService(db)
+	s_service := songs.NewSongService(db)
+
 	return Handler{
 		a_service: *a_service,
+		s_service: *s_service,
 	}, nil
 }

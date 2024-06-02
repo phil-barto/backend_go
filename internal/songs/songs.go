@@ -1,7 +1,5 @@
 package songs
 
-import "github.com/gin-gonic/gin"
-
 type Song struct {
 	ID       string `json:"id"`
 	Name     string `json:"name"`
@@ -10,9 +8,8 @@ type Song struct {
 }
 
 type SongStore interface {
-	GetSong(gin.Context, string) (Song, error)
-	GetSongs(gin.Context) ([]Song, error)
-	PostSong(gin.Context, string) (Song, error)
+	GetSong(string) (Song, error)
+	GetSongs() ([]Song, error)
 }
 
 type SongService struct {
