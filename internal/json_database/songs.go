@@ -21,7 +21,7 @@ func (j JsonDB) getSongData() ([]songs.Song, error) {
 	}
 
 	// Create a new Path object with the current file path
-	path := pathlib.NewPath(filename).Parent().Parent().Parent().Join("data", "artists.json")
+	path := pathlib.NewPath(filename).Parent().Parent().Parent().Join("data", "songs.json")
 
 	data, err := os.ReadFile(path.String())
 	if err != nil {

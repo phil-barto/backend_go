@@ -13,11 +13,11 @@ type SongStore interface {
 }
 
 type SongService struct {
-	store SongStore
+	Store SongStore
 }
 
 func NewSongService(store SongStore) *SongService {
 	return &SongService{
-		store: store,
+		Store: store,
 	}
 }

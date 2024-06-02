@@ -2,6 +2,7 @@ package api_handler
 
 import (
 	"backend_go/internal/artists"
+	"backend_go/internal/songs"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -16,16 +17,19 @@ import (
 
 func setupRouter() *gin.Engine {
 	gin.SetMode(gin.TestMode)
-	router := gin.Default()
-	return router
+	r := gin.Default()
+	h := Handler{}
+	r.GET("/health", h.HealthCheck)
+	r.GET("/artists", h.GetArtists)
+	r.GET("/artists/:id", h.GetArtist)
+	r.GET("/songs/", h.GetSongs)
+	r.GET("/songs/:id", h.GetSong)
+	return r
 }
 
 func TestHealthCheck(t *testing.T) {
-	h := Handler{}
 	mockResponse := `{"message":"health check okay"}`
-
 	r := setupRouter()
-	r.GET("/health", h.HealthCheck)
 
 	req, _ := http.NewRequest("GET", "/health", nil)
 	w := httptest.NewRecorder()
@@ -37,13 +41,7 @@ func TestHealthCheck(t *testing.T) {
 }
 
 func TestGetArtist(t *testing.T) {
-	h, err := NewHandler()
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	r := setupRouter()
-	r.GET("/artists", h.GetArtists)
 
 	req, _ := http.NewRequest("GET", "/artists", nil)
 	w := httptest.NewRecorder()
@@ -53,7 +51,7 @@ func TestGetArtist(t *testing.T) {
 
 	// Decode the JSON bytes into a slice of Artist structs
 	var artists []artists.Artist
-	err = json.NewDecoder(bytes.NewReader(responseData)).Decode(&artists)
+	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&artists)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
 		return
@@ -61,13 +59,7 @@ func TestGetArtist(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 func TestGetArtistId(t *testing.T) {
-	h, err := NewHandler()
-	if err != nil {
-		fmt.Println(err)
-	}
-
 	r := setupRouter()
-	r.GET("/artists/:id", h.GetArtist)
 
 	req, _ := http.NewRequest("GET", "/artists/1432", nil)
 	w := httptest.NewRecorder()
@@ -78,7 +70,27 @@ func TestGetArtistId(t *testing.T) {
 
 	// Decode the JSON bytes into a slice of Artist structs
 	var artist artists.Artist
-	err = json.NewDecoder(bytes.NewReader(responseData)).Decode(&artist)
+	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&artist)
+	if err != nil {
+		fmt.Println("Error decoding JSON:", err)
+		assert.Fail(t, "Error decoding JSON:", err)
+	}
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestGetSongId(t *testing.T) {
+
+	r := setupRouter()
+	req, _ := http.NewRequest("GET", "/songs/8253", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	responseData, _ := io.ReadAll(w.Body)
+	fmt.Println(responseData)
+
+	// Decode the JSON bytes into a slice of Artist structs
+	var song songs.Song
+	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&song)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
 		assert.Fail(t, "Error decoding JSON:", err)
