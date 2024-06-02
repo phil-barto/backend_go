@@ -3,6 +3,7 @@ package json_database
 import (
 	"backend_go/internal/songs"
 	"encoding/json"
+	"fmt"
 	"io/fs"
 	"log"
 	"os"
@@ -24,6 +25,7 @@ func (j JsonDB) getSongData() ([]songs.Song, error) {
 	path := pathlib.NewPath(filename).Parent().Parent().Parent().Join("data", "songs.json")
 
 	data, err := os.ReadFile(path.String())
+	fmt.Println("data: %s", data)
 	if err != nil {
 		log.Fatalf("Failed to read file: %s", err)
 		return songs, &fs.PathError{}

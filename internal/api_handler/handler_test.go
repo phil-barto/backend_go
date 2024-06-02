@@ -86,7 +86,6 @@ func TestGetSongId(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	responseData, _ := io.ReadAll(w.Body)
-	fmt.Println(responseData)
 
 	// Decode the JSON bytes into a slice of Artist structs
 	var song songs.Song

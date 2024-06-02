@@ -56,6 +56,7 @@ func (h Handler) GetSongs(c *gin.Context) {
 func (h Handler) GetSong(c *gin.Context) {
 	id := c.Param("id")
 	song, err := h.s_service.Store.GetSong(id)
+	fmt.Println(song)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
