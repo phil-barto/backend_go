@@ -18,7 +18,11 @@ import (
 func setupRouter() *gin.Engine {
 	gin.SetMode(gin.TestMode)
 	r := gin.Default()
-	h := Handler{}
+	h, err := NewHandler()
+
+	if err != nil {
+		fmt.Println(err)
+	}
 	r.GET("/health", h.HealthCheck)
 	r.GET("/artists", h.GetArtists)
 	r.GET("/artists/:id", h.GetArtist)
@@ -90,6 +94,25 @@ func TestGetSongs(t *testing.T) {
 	// Decode the JSON bytes into a slice of Artist structs
 	var songs []songs.Song
 	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&songs)
+	if err != nil {
+		fmt.Println("Error decoding JSON:", err)
+		assert.Fail(t, "Error decoding JSON:", err)
+	}
+	assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestGetSong(t *testing.T) {
+	r := setupRouter()
+
+	req, _ := http.NewRequest("GET", "/songs/8253", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	responseData, _ := io.ReadAll(w.Body)
+
+	// Decode the JSON bytes into a slice of Artist structs
+	var song songs.Song
+	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&song)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
 		assert.Fail(t, "Error decoding JSON:", err)
