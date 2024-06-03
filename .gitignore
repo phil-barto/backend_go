@@ -1,3 +1,5 @@
-.vscode/
+.vsocde/*
 
-bin/*
+bin/
+
+tmp/
