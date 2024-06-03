@@ -44,6 +44,7 @@ func (j JsonDB) GetSong(uuid string) (songs.Song, error) {
 
 	songs, err := j.getSongData()
 	if err != nil {
+		fmt.Println(err)
 		return s, &json.InvalidUnmarshalError{}
 	}
 
@@ -57,6 +58,8 @@ func (j JsonDB) GetSong(uuid string) (songs.Song, error) {
 }
 
 func (j JsonDB) GetSongs() ([]songs.Song, error) {
+	fmt.Println("getting songs beginning")
 	songs, err := j.getSongData()
+	fmt.Println("getting songs end")
 	return songs, err
 }

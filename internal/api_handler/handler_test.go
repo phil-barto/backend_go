@@ -79,8 +79,8 @@ func TestGetArtistId(t *testing.T) {
 }
 
 func TestGetSongId(t *testing.T) {
-
 	r := setupRouter()
+
 	req, _ := http.NewRequest("GET", "/songs/8253", nil)
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)

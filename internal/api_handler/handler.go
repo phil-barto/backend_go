@@ -46,7 +46,7 @@ func (h Handler) GetArtists(c *gin.Context) {
 func (h Handler) GetSongs(c *gin.Context) {
 	songs, err := h.s_service.Store.GetSongs()
 	if err != nil {
-		fmt.Println("artists failed")
+		fmt.Println("songs failed")
 		c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
 	} else {
 		c.JSON(http.StatusOK, songs)
@@ -56,7 +56,6 @@ func (h Handler) GetSongs(c *gin.Context) {
 func (h Handler) GetSong(c *gin.Context) {
 	id := c.Param("id")
 	song, err := h.s_service.Store.GetSong(id)
-	fmt.Println(song)
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
