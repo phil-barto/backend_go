@@ -25,7 +25,6 @@ func (j JsonDB) getSongData() ([]model.Song, error) {
 	path := pathlib.NewPath(filename).Parent().Parent().Parent().Join("data", "songs.json")
 
 	data, err := os.ReadFile(path.String())
-	fmt.Println("data: %s", data)
 	if err != nil {
 		log.Fatalf("Failed to read file: %s", err)
 		return songs, &fs.PathError{}
@@ -58,8 +57,6 @@ func (j JsonDB) GetSong(uuid string) (model.Song, error) {
 }
 
 func (j JsonDB) GetSongs() ([]model.Song, error) {
-	fmt.Println("getting songs beginning")
 	songs, err := j.getSongData()
-	fmt.Println("getting songs end")
 	return songs, err
 }
