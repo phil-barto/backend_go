@@ -1,8 +1,7 @@
 package api_handler
 
 import (
-	"backend_go/internal/artists"
-	"backend_go/internal/songs"
+	"backend_go/graph/model"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -54,7 +53,7 @@ func TestGetArtist(t *testing.T) {
 	responseData, _ := io.ReadAll(w.Body)
 
 	// Decode the JSON bytes into a slice of Artist structs
-	var artists []artists.Artist
+	var artists []model.Artist
 	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&artists)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
@@ -73,7 +72,7 @@ func TestGetArtistId(t *testing.T) {
 	fmt.Println(responseData)
 
 	// Decode the JSON bytes into a slice of Artist structs
-	var artist artists.Artist
+	var artist model.Artist
 	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&artist)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
@@ -92,7 +91,7 @@ func TestGetSongs(t *testing.T) {
 	responseData, _ := io.ReadAll(w.Body)
 
 	// Decode the JSON bytes into a slice of Artist structs
-	var songs []songs.Song
+	var songs []model.Song
 	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&songs)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
@@ -111,7 +110,7 @@ func TestGetSong(t *testing.T) {
 	responseData, _ := io.ReadAll(w.Body)
 
 	// Decode the JSON bytes into a slice of Artist structs
-	var song songs.Song
+	var song model.Song
 	err := json.NewDecoder(bytes.NewReader(responseData)).Decode(&song)
 	if err != nil {
 		fmt.Println("Error decoding JSON:", err)
