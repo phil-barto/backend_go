@@ -1,7 +1,7 @@
 package database
 
 import (
-	"backend_go/internal/artists"
+	"backend_go/graph/model"
 	"encoding/json"
 	"io/fs"
 	"log"
@@ -11,8 +11,8 @@ import (
 	"github.com/chigopher/pathlib"
 )
 
-func (JsonDB) getJsonData() ([]artists.Artist, error) {
-	var artists []artists.Artist
+func (JsonDB) getJsonData() ([]model.Artist, error) {
+	var artists []model.Artist
 
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
@@ -36,8 +36,8 @@ func (JsonDB) getJsonData() ([]artists.Artist, error) {
 	return artists, nil
 }
 
-func (j JsonDB) GetArtist(uuid string) (artists.Artist, error) {
-	var a artists.Artist
+func (j JsonDB) GetArtist(uuid string) (model.Artist, error) {
+	var a model.Artist
 	artists, err := j.getJsonData()
 	if err != nil {
 		return a, &json.InvalidUnmarshalError{}
@@ -52,16 +52,7 @@ func (j JsonDB) GetArtist(uuid string) (artists.Artist, error) {
 	return a, os.ErrNotExist
 }
 
-func (j JsonDB) GetArtists() ([]artists.Artist, error) {
+func (j JsonDB) GetArtists() ([]model.Artist, error) {
 	artists, err := j.getJsonData()
 	return artists, err
-}
-
-func (j *JsonDB) PostArtist(id string) (artists.Artist, error) {
-	return artists.Artist{
-		ID:       "1234",
-		Name:     "Johnny Depp",
-		Email:    "johnny.depp@gmail.com",
-		NumViews: 123,
-	}, nil
 }

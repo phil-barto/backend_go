@@ -1,8 +1,7 @@
 package database
 
 import (
-	"backend_go/internal/artists"
-	"backend_go/internal/songs"
+	"backend_go/graph/model"
 	"errors"
 )
 
@@ -12,10 +11,10 @@ const (
 )
 
 type Database interface {
-	GetSong(string) (songs.Song, error)
-	GetSongs() ([]songs.Song, error)
-	GetArtist(string) (artists.Artist, error)
-	GetArtists() ([]artists.Artist, error)
+	GetSong(string) (model.Song, error)
+	GetSongs() ([]model.Song, error)
+	GetArtist(string) (model.Artist, error)
+	GetArtists() ([]model.Artist, error)
 }
 
 type JsonDB struct {

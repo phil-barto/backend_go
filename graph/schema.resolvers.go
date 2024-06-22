@@ -13,20 +13,23 @@ import (
 
 // Artists is the resolver for the artists field.
 func (r *queryResolver) Artists(ctx context.Context) ([]model.Artist, error) {
-	panic(fmt.Errorf("not implemented: Artists - artists"))
+	return r.db.GetArtists()
 }
 
 // Songs is the resolver for the songs field.
 func (r *queryResolver) Songs(ctx context.Context) ([]model.Song, error) {
-	panic(fmt.Errorf("not implemented: Songs - songs"))
+	return r.db.GetSongs()
 }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver {
 	db, err := database.NewDB(database.JSON)
+	if err != nil {
+		panic(fmt.Errorf("Error initializing database"))
+	}
 	return &queryResolver{
-		r,
-		db
+		Resolver: r,
+		db:       db,
 	}
 }
 

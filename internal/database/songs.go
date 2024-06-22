@@ -1,7 +1,7 @@
 package database
 
 import (
-	"backend_go/internal/songs"
+	"backend_go/graph/model"
 	"encoding/json"
 	"fmt"
 	"io/fs"
@@ -12,9 +12,9 @@ import (
 	"github.com/chigopher/pathlib"
 )
 
-func (j JsonDB) getSongData() ([]songs.Song, error) {
+func (j JsonDB) getSongData() ([]model.Song, error) {
 
-	var songs []songs.Song
+	var songs []model.Song
 
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
@@ -39,8 +39,8 @@ func (j JsonDB) getSongData() ([]songs.Song, error) {
 	return songs, nil
 }
 
-func (j JsonDB) GetSong(uuid string) (songs.Song, error) {
-	var s songs.Song
+func (j JsonDB) GetSong(uuid string) (model.Song, error) {
+	var s model.Song
 
 	songs, err := j.getSongData()
 	if err != nil {
@@ -57,7 +57,7 @@ func (j JsonDB) GetSong(uuid string) (songs.Song, error) {
 	return s, os.ErrNotExist
 }
 
-func (j JsonDB) GetSongs() ([]songs.Song, error) {
+func (j JsonDB) GetSongs() ([]model.Song, error) {
 	fmt.Println("getting songs beginning")
 	songs, err := j.getSongData()
 	fmt.Println("getting songs end")
