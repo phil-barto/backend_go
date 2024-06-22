@@ -17,13 +17,6 @@ type Database interface {
 	GetArtists() ([]model.Artist, error)
 }
 
-type JsonDB struct {
-}
-
-func newJsonDB() (JsonDB, error) {
-	return JsonDB{}, nil
-}
-
 func NewDB(dbType string) (Database, error) {
 	if dbType == JSON {
 		return newJsonDB()
