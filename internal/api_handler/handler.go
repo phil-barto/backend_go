@@ -1,9 +1,7 @@
 package api_handler
 
 import (
-	"backend_go/internal/artists"
-	"backend_go/internal/json_database"
-	"backend_go/internal/songs"
+	"backend_go/internal/database"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,9 +10,8 @@ import (
 )
 
 type Handler struct {
-	log       log.Logger
-	a_service artists.ArtistService
-	s_service songs.SongService
+	log log.Logger
+	db  database.Database
 }
 
 func (h Handler) HealthCheck(c *gin.Context) {
@@ -25,7 +22,7 @@ func (h Handler) HealthCheck(c *gin.Context) {
 
 func (h Handler) GetArtist(c *gin.Context) {
 	id := c.Param("id")
-	artist, err := h.a_service.Store.GetArtist(id)
+	artist, err := h.db.GetArtist(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "artist not found"})
 	} else {
@@ -34,7 +31,7 @@ func (h Handler) GetArtist(c *gin.Context) {
 }
 
 func (h Handler) GetArtists(c *gin.Context) {
-	artists, err := h.a_service.Store.GetArtists()
+	artists, err := h.db.GetArtists()
 	if err != nil {
 		fmt.Println("artists failed")
 		c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
@@ -44,7 +41,7 @@ func (h Handler) GetArtists(c *gin.Context) {
 }
 
 func (h Handler) GetSongs(c *gin.Context) {
-	songs, err := h.s_service.Store.GetSongs()
+	songs, err := h.db.GetSongs()
 	if err != nil {
 		fmt.Println("songs failed")
 		c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
@@ -55,7 +52,7 @@ func (h Handler) GetSongs(c *gin.Context) {
 
 func (h Handler) GetSong(c *gin.Context) {
 	id := c.Param("id")
-	song, err := h.s_service.Store.GetSong(id)
+	song, err := h.db.GetSong(id)
 	if err != nil {
 		fmt.Println("err: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "bad request"})
@@ -65,15 +62,12 @@ func (h Handler) GetSong(c *gin.Context) {
 }
 
 func NewHandler() (Handler, error) {
-	db, err := json_database.NewJsonDB()
+	db, err := database.NewDB(database.JSON)
 	if err != nil {
 		fmt.Println("formatting error")
 	}
-	a_service := artists.NewArtistService(db)
-	s_service := songs.NewSongService(db)
 
 	return Handler{
-		a_service: *a_service,
-		s_service: *s_service,
+		db: db,
 	}, nil
 }

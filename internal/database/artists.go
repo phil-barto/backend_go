@@ -1,4 +1,4 @@
-package json_database
+package database
 
 import (
 	"backend_go/internal/artists"

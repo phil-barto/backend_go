@@ -1,0 +1,23 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Artist {
+  id: String!
+  name: String!
+  age: Int!
+  email: String!
+  num_views: Int!
+}
+
+type Song{
+  id: String!
+  name: String!
+  artist_id: String!
+  length: Int!
+}
+
+type Query {
+  artists: [Artist!]!
+  songs: [Song!]!
+}
